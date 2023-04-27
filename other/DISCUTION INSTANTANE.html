@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Etambo Forums</title>
+        <style>
+            head {
+                background-color: #6395e6;
+                color: white;
+                padding: 10px;
+                text-align: center;
+            }
+            footer {
+                background-color: #6395e6;
+                color: white;
+                padding: 10px;
+                text-align: center;
+                position: absolute;
+                bottom: 0;
+                width: 100%;
+            }
+            ul{
+                list-style-type: none;
+                margin: 0;
+                padding: 0;
+                overflow: hidden;
+                background-color: #6395e6;
+            }
+            li{
+                float: left;
+            }
+            li a{
+                display: block;
+                color: white;
+                text-align: center;
+                padding: 14px 16px;
+                text-decoration: none;
+            }
+            li a:hover {
+                background-color: #4c81b4;
+            }
+        </style>
+    </head>
+    <body>
+        <header>
+            <h1>Discution Instantan&eacute;</h1>
+            <ul>
+                <li><a href="file:///E:/Nouveau%20dossier/Nouveau%20dossier/ACCEUIL.html">Accueil</a></li>
+                <li><a href="file:///E:/Nouveau%20dossier/Nouveau%20dossier/RETROUVEZ DES AMIS.html">Retrouvez des Amis</a></li>
+                <li><a href="file:///E:/Nouveau%20dossier/Nouveau%20dossier/DISCUTION INSTANTANE.html">Discution Instantan&eacute;e</a></li>
+                <li><a href="file:///E:/Nouveau%20dossier/Nouveau%20dossier/SE CONNECTER.html">Se connecter</a></li>
+                <li><a href="file:///E:/Nouveau%20dossier/Nouveau%20dossier/INSCRIPTION.html">S'inscrire</a></li>
+                <li><a href="file:///E:/Nouveau%20dossier/Nouveau%20dossier/A PROPOS.html">A propos</a></li>
+            </ul>
+        </header>
+        <h2>Discution</h2>
+        <div id="chat">
+            <ul id="message"></ul>
+            <form id="Message-Form">
+                <input type="text" id="message-input" autocomplete="off"/>
+                <button>Envoyer</button>
+            </form>
+        </div>
+        <script>
+            const socket= io();//initialise une connexion WebSocket
+            const MessageForm=document.querySelector("message-form");
+            const messageInput=document.querySelector("message-input");
+            const messages=document.querySelector("messages");
+            MessageForm.addEventListener("submit",e=>{
+                e.preventDefault();
+                const message=messageInput.value;
+                if (message){
+                    socket.emit("sendMessage",message);//Envoie le message au serveur messageInput.value="";
+                }
+            });
+            function appendMessage(message){
+                const li=document.createElement("li");
+                li.textContent=message;
+                message.appndChild(li);
+            }
+            socket.on("message",message=>{
+                appendMessage(message);//Ajoute le message à la liste des messages
+            });
+        </script>
+        <footer>
+            <p>&copy;2023 Etambo Forums. Tous droits r&eacute;serv&eacute;s.</p>
+            <a href="https://wa.me/243816974192" target="_blank"><img src="what.jpg" alt="WhatsApp"></a>
+        </footer>
+    </body>
+</html>
